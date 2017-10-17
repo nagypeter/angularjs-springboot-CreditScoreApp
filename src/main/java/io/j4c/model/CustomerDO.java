@@ -1,7 +1,5 @@
 package io.j4c.model;
 
-import java.util.Date;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class CustomerDO {
@@ -22,7 +20,7 @@ public class CustomerDO {
 	 * Customer's date of birth
 	 */
 	@JsonProperty(value="dateofbirth")
-	private Date birthDate;
+	private String birthDate;
 	
 	/**
 	 * Customer's SSN
@@ -38,7 +36,7 @@ public class CustomerDO {
     public CustomerDO() {
     }
 
-    public CustomerDO(String firstName, String lastName, Date birthDate, String ssn) {
+    public CustomerDO(String firstName, String lastName, String birthDate, String ssn) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.birthDate = birthDate;
@@ -76,14 +74,14 @@ public class CustomerDO {
 	/**
 	 * @return the birthDate
 	 */
-	public Date getBirthDate() {
+	public String getBirthDate() {
 		return birthDate;
 	}
 
 	/**
 	 * @param birthDate the birthDate to set
 	 */
-	public void setBirthDate(Date birthDate) {
+	public void setBirthDate(String birthDate) {
 		this.birthDate = birthDate;
 	}
 
