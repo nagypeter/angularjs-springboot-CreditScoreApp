@@ -79,7 +79,7 @@
               </div>
           </div>
           <div class="panel panel-default">
-              <div class="panel-heading"><span class="lead">Credit Score: <font color="red">{{ctrl.user.score}}</font></span></div>
+              <div class="panel-heading"><span class="lead">Credit Score: <span id="score_result" style="color:red">{{ctrl.user.score}}</span></span></div>
           </div>
       </div>
       
