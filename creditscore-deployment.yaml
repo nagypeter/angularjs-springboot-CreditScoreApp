@@ -21,7 +21,7 @@ spec:
         run: rest-creditscore
     spec:
       containers:
-      - image: wcr.io/jreevesession/rest-creditscore:latest
+      - image: wcr.io/peternagy/prepo1:latest
         imagePullPolicy: Always
         name: rest-creditscore
         ports:
