@@ -15,7 +15,7 @@ push-dockerhub:
         tag: latest
         repository: $DOCKERHUB_REPOSITORY
         registry: https://index.docker.io/v1/
-        
+        cmd: java -jar  /pipeline/source/target/loan-0.1.0.war
 push:
   steps:
     # Push to public docker repo Container Registry (CR)
