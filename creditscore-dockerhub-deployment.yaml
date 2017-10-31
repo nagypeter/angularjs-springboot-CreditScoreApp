@@ -1,0 +1,32 @@
+#
+# Copyright (c) 2017 Oracle and/or its affiliates. All rights reserved.
+#
+
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: rest-creditscore
+  labels:
+    run: rest-creditscore
+spec:
+  replicas: 1
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        run: rest-creditscore
+    spec:
+      containers:
+      - image: peternagy/creditscoreapp:latest
+        imagePullPolicy: Always
+        name: rest-creditscore
+        ports:
+        - containerPort: 8080
+          protocol: TCP
+      imagePullSecrets:
+      - name: ocrsecret
+      restartPolicy: Always

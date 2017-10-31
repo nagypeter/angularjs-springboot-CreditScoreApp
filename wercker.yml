@@ -6,6 +6,16 @@ build:
         name: Maven install
         code: mvn install
 
+push-dockerhub:
+  steps:
+    # Push to public docker repo
+    - internal/docker-push:
+        username: $DOCKERHUB_USERNAME
+        password: $DOCKERHUB_PASSWORD
+        tag: latest
+        repository: $DOCKERHUB_REPOSITORY
+        registry: https://index.docker.io/v1/
+        
 push:
   steps:
     # Push to public docker repo Container Registry (CR)
@@ -40,7 +50,7 @@ deploy-to-cluster:
         server: $KUBERNETES_MASTER
         token: $KUBERNETES_TOKEN
         insecure-skip-tls-verify: true
-        command: create -f $WERCKER_ROOT/creditscore-deployment.yaml
+        command: create -f $WERCKER_ROOT/creditscore-dockerhub-deployment.yaml
 testapp:
   steps:
     - script:
