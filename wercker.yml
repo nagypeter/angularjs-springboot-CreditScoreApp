@@ -1,4 +1,4 @@
-box: combient/java-mvn
+box: combient/java-mvn  
 build:
   steps:
     # Build Inventory REST application
@@ -7,14 +7,41 @@ build:
         code: mvn install
 push:
   steps:
-    # Push to public docker repo
+    # Push to public docker repo Container Registry (CR)
     - internal/docker-push:
-        username: $DOCKER_USERNAME
-        password: $DOCKER_PASSWORD
         tag: latest
-        repository: $DOCKER_REPOSITORY
-        registry: https://index.docker.io/v1/
+        repository: $CR_REPOSITORY
         cmd: java -jar  /pipeline/source/target/loan-0.1.0.war
+deploy-to-cluster:
+  steps:
+    - kubectl:
+        server: $KUBERNETES_MASTER
+        token: $KUBERNETES_TOKEN
+        insecure-skip-tls-verify: true
+        command: delete deployment rest-creditscore  
+  
+    - kubectl:
+        server: $KUBERNETES_MASTER
+        token: $KUBERNETES_TOKEN
+        insecure-skip-tls-verify: true
+        command: create -f $WERCKER_ROOT/creditscore-deployment.yaml
+testapp:
+  steps:
+    - script:
+        name: Run and Test microservice
+        code: | 
+              java -jar  /pipeline/source/target/loan-0.1.0.war &
+              sleep 10
+              CREDITSCORE_URL=http://localhost:8080/creditscore
+              echo 'Microservice URL=' $CREDITSCORE_URL
+              if curl -X POST -H "Content-Type: application/json" -X POST -d '{"firstname":"John","lastname":"Doe","dateofbirth":"01/01/2015","ssn":"111223333"}' $CREDITSCORE_URL | grep "firstname"
+              then
+                  # if the keyword is in the conent
+                  echo "Test passed"
+              else
+                  echo "Test failed"
+                  exit -1
+              fi
 restart:
   steps:
     # Restart Docker on OCCS using webhook
