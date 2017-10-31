@@ -18,8 +18,7 @@ deploy-to-cluster:
         server: $KUBERNETES_MASTER
         token: $KUBERNETES_TOKEN
         insecure-skip-tls-verify: true
-        command: delete deployment rest-creditscore  
-  
+        command: delete deployment rest-creditscore --ignore-not-found=true
     - kubectl:
         server: $KUBERNETES_MASTER
         token: $KUBERNETES_TOKEN
