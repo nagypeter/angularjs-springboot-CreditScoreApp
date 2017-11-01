@@ -45,6 +45,14 @@ deploy-to-cluster:
         server: $KUBERNETES_MASTER
         token: $KUBERNETES_TOKEN
         insecure-skip-tls-verify: true
+        command: delete namespace $NAMESPACE --ignore-not-found=true
+    - script:
+        name: wait to delete namespace
+        code: sleep 5
+    - kubectl:
+        server: $KUBERNETES_MASTER
+        token: $KUBERNETES_TOKEN
+        insecure-skip-tls-verify: true
         command: create namespace $NAMESPACE
     - kubectl:
         server: $KUBERNETES_MASTER
