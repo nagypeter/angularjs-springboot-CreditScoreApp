@@ -45,12 +45,17 @@ deploy-to-cluster:
         server: $KUBERNETES_MASTER
         token: $KUBERNETES_TOKEN
         insecure-skip-tls-verify: true
-        command: delete deployment rest-creditscore --ignore-not-found=true
+        command: create namespace $NAMESPACE
     - kubectl:
         server: $KUBERNETES_MASTER
         token: $KUBERNETES_TOKEN
         insecure-skip-tls-verify: true
-        command: create -f $WERCKER_ROOT/creditscore-dockerhub-deployment.yaml
+        command: delete deployment rest-creditscore --ignore-not-found=true --namespace=$NAMESPACE
+    - kubectl:
+        server: $KUBERNETES_MASTER
+        token: $KUBERNETES_TOKEN
+        insecure-skip-tls-verify: true
+        command: create -f $WERCKER_ROOT/creditscore-dockerhub-deployment.yaml --namespace=$NAMESPACE
 testapp:
   steps:
     - script:
