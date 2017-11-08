@@ -30,3 +30,15 @@ spec:
       imagePullSecrets:
       - name: wercker
       restartPolicy: Always
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: rest-creditscore-svc
+spec:
+  selector:
+    run: rest-creditscore
+  ports:
+    - port: 8088
+      targetPort: 80
+  type: ClusterIP
