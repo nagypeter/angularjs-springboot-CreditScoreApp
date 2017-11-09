@@ -86,8 +86,8 @@
       <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
   	  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
       <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.4/angular.js"></script>
-      <script src="<c:url value='/static/js/app.js' />"></script>
-      <script src="<c:url value='/static/js/service/customer_service.js' />"></script>
-      <script src="<c:url value='/static/js/controller/customer_controller.js' />"></script>
+      <script src="<c:url value='static/js/app.js' />"></script>
+      <script src="<c:url value='static/js/service/customer_service.js' />"></script>
+      <script src="<c:url value='static/js/controller/customer_controller.js' />"></script>
   </body>
 </html>
