@@ -28,7 +28,7 @@ spec:
         - containerPort: 8080
           protocol: TCP
       imagePullSecrets:
-      - name: wercker
+      - name: wrelease
       restartPolicy: Always
 ---
 apiVersion: v1
