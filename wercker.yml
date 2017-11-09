@@ -53,6 +53,7 @@ deploy-to-cluster:
         id: alpine
         cmd: /bin/sh
   steps:
+    - bash-template
     - kubectl:
         server: $KUBERNETES_MASTER
         token: $KUBERNETES_TOKEN
@@ -76,12 +77,12 @@ deploy-to-cluster:
         server: $KUBERNETES_MASTER
         token: $KUBERNETES_TOKEN
         insecure-skip-tls-verify: true
-        command: create -f $WERCKER_ROOT/kubernetes.yml --namespace=$NAMESPACE
+        command: create -f $WERCKER_ROOT/kubernetes-deployment.yml --namespace=$NAMESPACE
     - kubectl:
         server: $KUBERNETES_MASTER
         token: $KUBERNETES_TOKEN
         insecure-skip-tls-verify: true
-        command: create -f $WERCKER_ROOT/ingress.yaml --namespace=$NAMESPACE
+        command: create -f $WERCKER_ROOT/ingress.yml --namespace=$NAMESPACE
 testapp:
   steps:
     - script:
