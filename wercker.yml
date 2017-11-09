@@ -3,6 +3,12 @@ build:
   steps:
     # Build Inventory REST application
     - script:
+        name: configure application's context path
+        code: sed "s|@@CONTEXT_PATH@@|${WERCKER_APPLICATION_OWNER_NAME}|g" -i $WERCKER_ROOT/src/main/java/io/j4c/CustomContainer.java
+    - script:
+        name: print source
+        code: cat $WERCKER_ROOT/src/main/java/io/j4c/CustomContainer.java
+    - script:
         name: Maven install
         code: mvn install
 
