@@ -1,0 +1,18 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: rest-creditscore-ing
+  annotations:
+    kubernetes.io/ingress.class: 'nginx'
+    ingress.kubernetes.io/add-base-url: 'true'
+    ingress.kubernetes.io/rewrite-target: /
+spec:
+#  tls:
+#  - secretName: tls-secret
+  rules:
+  - http:
+      paths:
+      - path: /test/
+        backend:
+          serviceName: rest-creditscore-svc
+          servicePort: 8088
