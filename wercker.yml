@@ -27,7 +27,7 @@ push:
     # Push to public docker repo Container Registry (CR)
     - internal/docker-push:
         tag: $WERCKER_GIT_BRANCH-$WERCKER_GIT_COMMIT
-#        repository: $CR_REPOSITORY
+        repository: wcr.io/${WERCKER_APPLICATION_OWNER_NAME}/${WERCKER_APPLICATION_NAME}
         cmd: java -jar  /pipeline/source/target/loan-0.1.0.war
 
 inject-secret:
