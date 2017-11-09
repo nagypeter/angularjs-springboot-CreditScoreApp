@@ -7,12 +7,10 @@ metadata:
     ingress.kubernetes.io/add-base-url: 'true'
     ingress.kubernetes.io/rewrite-target: /
 spec:
-#  tls:
-#  - secretName: tls-secret
   rules:
   - http:
       paths:
-      - path: /test/
+      - path: /${WERCKER_APPLICATION_OWNER_NAME}/
         backend:
           serviceName: rest-creditscore-svc
           servicePort: 8088

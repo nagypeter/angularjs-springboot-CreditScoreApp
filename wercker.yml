@@ -26,8 +26,8 @@ push:
   steps:
     # Push to public docker repo Container Registry (CR)
     - internal/docker-push:
-        tag: latest
-        repository: $CR_REPOSITORY
+        tag: $WERCKER_GIT_BRANCH-$WERCKER_GIT_COMMIT
+#        repository: $CR_REPOSITORY
         cmd: java -jar  /pipeline/source/target/loan-0.1.0.war
 
 inject-secret:
@@ -67,11 +67,6 @@ deploy-to-cluster:
         insecure-skip-tls-verify: true
         command: create namespace $NAMESPACE
     - kubectl:
-        server: $KUBERNETES_MASTER
-        token: $KUBERNETES_TOKEN
-        insecure-skip-tls-verify: true
-        command: delete deployment rest-creditscore --ignore-not-found=true --namespace=$NAMESPACE
-    - kubectl:
         name: create secret
         server: $KUBERNETES_MASTER
         token: $KUBERNETES_TOKEN
@@ -81,12 +76,12 @@ deploy-to-cluster:
         server: $KUBERNETES_MASTER
         token: $KUBERNETES_TOKEN
         insecure-skip-tls-verify: true
-        command: create -f $WERCKER_ROOT/creditscore-deployment.yaml --namespace=$NAMESPACE
+        command: create -f $WERCKER_ROOT/creditscore-deployment.yml --namespace=$NAMESPACE
     - kubectl:
         server: $KUBERNETES_MASTER
         token: $KUBERNETES_TOKEN
         insecure-skip-tls-verify: true
-        command: create -f $WERCKER_ROOT/ingress.yaml --namespace=$NAMESPACE
+        command: create -f $WERCKER_ROOT/ingress.yml --namespace=$NAMESPACE
 testapp:
   steps:
     - script:
