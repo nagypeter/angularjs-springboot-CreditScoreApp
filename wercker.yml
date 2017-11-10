@@ -3,11 +3,11 @@ build:
   steps:
     # Build Inventory REST application
     - script:
-        name: configure application's context path
-        code: sed "s|@@CONTEXT_PATH@@|${WERCKER_APPLICATION_OWNER_NAME}|g" -i $WERCKER_ROOT/src/main/java/io/j4c/CustomContainer.java
+        name: Customize application home page
+        code: sed "s|@@NAMESPACE@@|${WERCKER_APPLICATION_OWNER_NAME}|g" -i $WERCKER_ROOT/src/main/webapp/WEB-INF/views/CreditScore.jsp
     - script:
         name: print source
-        code: cat $WERCKER_ROOT/src/main/java/io/j4c/CustomContainer.java
+        code: cat $WERCKER_ROOT/src/main/webapp/WEB-INF/views/CreditScore.jsp
     - script:
         name: Maven install
         code: mvn install
