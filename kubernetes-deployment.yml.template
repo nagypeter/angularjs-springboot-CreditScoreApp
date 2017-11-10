@@ -8,7 +8,6 @@ metadata:
   name: rest-creditscore
   labels:
     run: rest-creditscore
-    commit: ${WERCKER_GIT_COMMIT}
 spec:
   replicas: 1
   strategy:
@@ -39,7 +38,6 @@ metadata:
 spec:
   selector:
     run: rest-creditscore
-    commit: ${WERCKER_GIT_COMMIT}
   ports:
     - port: 8088
       targetPort: 8080
