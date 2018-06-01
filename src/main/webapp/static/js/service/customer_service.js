@@ -10,9 +10,9 @@ angular.module('myApp').factory('CreditService', ['$http', '$q', function($http,
 
     return factory;
 
-    function creditScore(user) {
+    function creditScore(user, contextpath) {
         var deferred = $q.defer();
-        $http.post(REST_SERVICE_URI, user)
+        $http.post(contextpath + REST_SERVICE_URI, user)
             .then(
             function (response) {
                 deferred.resolve(response.data);
