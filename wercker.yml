@@ -152,5 +152,5 @@ copy-artifact:
         ls -la
         scp -i $WERCKER_ROOT/private.key -o StrictHostKeyChecking=no -o UserKnownHostsFile=no ${WERCKER_ROOT}/target/loan-0.1.0.war opc@$WLS_IP:/scratch
   - script:
-      name: list /scratch
-      code: ssh -i $WERCKER_ROOT/private.key -l opc -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no $WLS_IP "ls -la /scratch"
+      name: chmod artifact
+      code: ssh -i $WERCKER_ROOT/private.key -l opc -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no $WLS_IP "chmod 644 /scratch/loan-0.1.0.war;ls -la /scratch"        
