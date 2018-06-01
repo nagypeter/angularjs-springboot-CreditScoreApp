@@ -6,8 +6,14 @@ build:
         name: Customize application home page
         code: sed "s|@@NAMESPACE@@|${WERCKER_APPLICATION_OWNER_NAME}|g" -i $WERCKER_ROOT/src/main/webapp/WEB-INF/views/CreditScore.jsp
     - script:
-        name: print source
+        name: print jsp source
         code: cat $WERCKER_ROOT/src/main/webapp/WEB-INF/views/CreditScore.jsp
+    - script:
+        name: Customize application context path
+        code: sed "s|replaceme|${WERCKER_APPLICATION_OWNER_NAME}|g" -i $WERCKER_ROOT/src/main/webapp/WEB-INF/weblogic.xml
+    - script:
+        name: print weblogic.xml source
+        code: cat $WERCKER_ROOT/src/main/webapp/WEB-INF/weblogic.xml
     - script:
         name: Maven install
         code: mvn install
@@ -106,3 +112,42 @@ restart:
     - script:
         name: curl POST
         code: curl -k -X POST $DEPLOYMENT_WEBHOOK
+        
+        
+deploy-to-weblogic:
+  steps:
+    # Deploy WAR using WebLogic RESTManagement interface
+    - script:
+        name: curl POST
+        code: |
+              curl --user $WLS_ADMIN:$WLS_PASSWORD \
+              -H X-Requested-By:Wercker \
+              -H Accept:application/json \
+              -H Content-Type:application/json \
+              -d "{
+                    name: '${WERCKER_APPLICATION_OWNER_NAME}-webapp', 
+                    deploymentPath: '${WERCKER_ROOT}/target/loan-0.1.0.war', 
+                    targets: [ 'AdminServer' ]
+              }" \
+              -X POST http://$WLS_IP:$WLS_ADMIN_PORT/management/wls/latest/deployments/application
+              
+copy-artifact:
+  # Copy artifact to WebLogic AdminServer pod
+  steps:
+  - add-to-known_hosts:
+      hostname: $WLS_IP
+  - create-file:
+      name: write key
+      filename: $WERCKER_ROOT/private.key
+      content: $PRIVATE_KEY
+      overwrite: true
+      hide-from-log: true
+  - script:
+      name: transfer application
+      code: |
+        pwd
+        ls -la
+        scp -i $WERCKER_ROOT/private.key -o StrictHostKeyChecking=no -o UserKnownHostsFile=no ${WERCKER_ROOT}/target/loan-0.1.0.war opc@$WLS_IP:/scratch
+  - script:
+      name: list /scratch
+      code: ssh -i $WERCKER_ROOT/private.key -l opc -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no $WLS_IP "ls -la /scratch"
