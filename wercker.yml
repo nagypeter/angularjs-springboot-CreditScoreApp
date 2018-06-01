@@ -143,6 +143,9 @@ copy-artifact:
       overwrite: true
       hide-from-log: true
   - script:
+      name: chmod private key
+      code: chmod 400 $WERCKER_ROOT/private.key
+  - script:
       name: transfer application
       code: |
         pwd
