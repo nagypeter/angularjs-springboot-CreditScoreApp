@@ -120,6 +120,7 @@ deploy-to-weblogic:
     - script:
         name: curl POST
         code: |
+              echo "http://${WLS_IP}:${WLS_ADMIN_PORT}"
               curl --user $WLS_ADMIN:$WLS_PASSWORD \
               -H X-Requested-By:Wercker \
               -H Accept:application/json \
@@ -129,7 +130,7 @@ deploy-to-weblogic:
                 targets: [ 'cluster-1' ]
               }" \              
               -F "deployment=@${WERCKER_ROOT}/target/loan-0.1.0.war" \
-              -X POST http://$WLS_IP:$WLS_ADMIN_PORT/management/wls/latest/deployments/application
+              -X POST "http://${WLS_IP}:${WLS_ADMIN_PORT}/management/wls/latest/deployments/application"
               
 copy-artifact:
   # Copy artifact to WebLogic AdminServer pod
