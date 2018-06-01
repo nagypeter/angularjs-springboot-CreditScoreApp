@@ -126,8 +126,8 @@ deploy-to-weblogic:
               -H Content-Type:application/json \
               -d "{
                     name: '${WERCKER_APPLICATION_OWNER_NAME}-webapp', 
-                    deploymentPath: '${WERCKER_ROOT}/target/loan-0.1.0.war', 
-                    targets: [ 'AdminServer' ]
+                    deploymentPath: '/scratch/loan-0.1.0.war', 
+                    targets: [ 'cluster-1' ]
               }" \
               -X POST http://$WLS_IP:$WLS_ADMIN_PORT/management/wls/latest/deployments/application
               
