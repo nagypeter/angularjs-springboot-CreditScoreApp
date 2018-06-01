@@ -123,12 +123,12 @@ deploy-to-weblogic:
               curl --user $WLS_ADMIN:$WLS_PASSWORD \
               -H X-Requested-By:Wercker \
               -H Accept:application/json \
-              -H Content-Type:application/json \
-              -d "{
-                    name: '${WERCKER_APPLICATION_OWNER_NAME}-webapp', 
-                    deploymentPath: '/home/opc/loan-0.1.0.war', 
-                    targets: [ 'cluster-1' ]
-              }" \
+              -H Content-Type:multipart/form-data \
+              -F "model={
+                name: '${WERCKER_APPLICATION_OWNER_NAME}-webapp',
+                targets: [ 'cluster-1' ]
+              }" \              
+              -F "deployment=@${WERCKER_ROOT}/target/loan-0.1.0.war" \
               -X POST http://$WLS_IP:$WLS_ADMIN_PORT/management/wls/latest/deployments/application
               
 copy-artifact:
