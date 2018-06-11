@@ -119,7 +119,7 @@ deploy-to-weblogic:
     # Deploy WAR using WebLogic RESTManagement interface
     - script:
         name: identify wercker IP to enable on OCI
-        code: host myip.opendns.com resolver1.opendns.com
+        code: curl icanhazip.com
     - script:
         name: using curl to deploy through REST management interface
         code: |
