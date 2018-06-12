@@ -15,8 +15,8 @@ build:
         name: print weblogic.xml source
         code: cat $WERCKER_ROOT/src/main/webapp/WEB-INF/weblogic.xml
     - script:
-        name: Maven install
-        code: mvn install
+        name: Maven build for WebLogic
+        code: mvn clean package -Pweblogic
 
 push-dockerhub:
   steps:
