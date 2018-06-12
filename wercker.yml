@@ -115,6 +115,9 @@ restart:
         
         
 deploy-to-weblogic:
+  box:
+      id: alpine
+      cmd: /bin/sh
   steps:
     # Deploy WAR using WebLogic RESTManagement interface
     - script:
