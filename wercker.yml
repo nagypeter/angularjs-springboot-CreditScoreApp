@@ -116,7 +116,7 @@ restart:
         
 deploy-to-weblogic:
   box:
-      id: alpine
+      id: spotify/docker-alpine
       cmd: /bin/sh
   steps:
     # Deploy WAR using WebLogic RESTManagement interface
