@@ -98,9 +98,9 @@ testapp:
               sleep 10
               CREDITSCORE_URL=http://localhost:8080/creditscore
               echo 'Microservice URL=' $CREDITSCORE_URL
-              if curl -X POST -H "Content-Type: application/json" -X POST -d '{"firstname":"John","lastname":"Doe","dateofbirth":"01/01/2015","ssn":"111223333"}' $CREDITSCORE_URL | grep "firstname"
+              if curl -X POST -H "Content-Type: application/json" -X POST -d '{"firstname":"John","lastname":"Doe","dateofbirth":"01/01/2015","ssn":"111223333"}' $CREDITSCORE_URL | grep "score: 616"
               then
-                  # if the keyword is in the conent
+                  # if the keyword is in the content
                   echo "Test passed"
               else
                   echo "Test failed"
