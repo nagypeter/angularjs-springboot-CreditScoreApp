@@ -36,7 +36,7 @@ public class CreditController {
 			score = score + 100;
 		}
 		
-		customer.setScore(score);
+		customer.setScore(score + 1);
 
 		ResponseEntity<CustomerDO> response = new ResponseEntity<CustomerDO>(customer, HttpStatus.OK);
 
