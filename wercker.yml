@@ -6,13 +6,13 @@ build:
         name: Customize application home page
         code: sed "s|@@NAMESPACE@@|${WERCKER_APPLICATION_OWNER_NAME}|g" -i $WERCKER_ROOT/src/main/webapp/WEB-INF/views/CreditScore.jsp
     - script:
-        name: print jsp source
+        name: Print jsp source
         code: cat $WERCKER_ROOT/src/main/webapp/WEB-INF/views/CreditScore.jsp
     - script:
         name: Customize application context path
         code: sed "s|replaceme|${WERCKER_APPLICATION_OWNER_NAME}|g" -i $WERCKER_ROOT/src/main/webapp/WEB-INF/weblogic.xml
     - script:
-        name: print weblogic.xml source
+        name: Print weblogic.xml source
         code: cat $WERCKER_ROOT/src/main/webapp/WEB-INF/weblogic.xml
     - script:
         name: Maven build for WebLogic
@@ -121,33 +121,13 @@ deploy-to-weblogic:
   steps:
     # Deploy WAR using WebLogic RESTManagement interface
     - script:
-        name: identify wercker IP to enable on OCI
+        name: Print Wercker public IP
         code: curl icanhazip.com
     - script:
         name: using curl to deploy through REST management interface
         code: |
               curl -v --user $WLS_ADMIN:$WLS_PASSWORD -H "X-Requested-By:Wercker" -H "Accept:application/json" -H "Content-Type:multipart/form-data" -F "model={name: '${WERCKER_APPLICATION_OWNER_NAME}-webapp', targets: [ 'cluster-1' ]}" -F deployment=@"${WERCKER_ROOT}/target/loan-0.1.0.war" http://${WLS_IP}:${WLS_ADMIN_PORT}/management/wls/latest/deployments/application
+    - script:
+        name: Print application URL
+        code: echo http://${WLS_IP}:30305/${WERCKER_APPLICATION_OWNER_NAME}
               
-copy-artifact:
-  # Copy artifact to WebLogic AdminServer pod
-  steps:
-  - add-to-known_hosts:
-      hostname: $WLS_IP
-  - create-file:
-      name: write key
-      filename: $WERCKER_ROOT/private.key
-      content: $PRIVATE_KEY
-      overwrite: true
-      hide-from-log: true
-  - script:
-      name: chmod private key
-      code: chmod 400 $WERCKER_ROOT/private.key
-  - script:
-      name: transfer application
-      code: |
-        pwd
-        ls -la
-        scp -i $WERCKER_ROOT/private.key -o StrictHostKeyChecking=no -o UserKnownHostsFile=no ${WERCKER_ROOT}/target/loan-0.1.0.war opc@$WLS_IP:/home/opc
-  - script:
-      name: chmod artifact
-      code: ssh -i $WERCKER_ROOT/private.key -l opc -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no $WLS_IP "chmod 777 /home/opc/loan-0.1.0.war;ls -la /home/opc"        
